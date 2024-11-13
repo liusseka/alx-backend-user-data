@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Definition of class Auth
+Definition of the class Auth
 """
+import os
 from flask import request
 from typing import (
     List,
@@ -11,7 +12,7 @@ from typing import (
 
 class Auth:
     """
-    Manages the API authentication
+    This class manages the API authentication
     """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
@@ -56,3 +57,16 @@ class Auth:
         Returns a User instance from information from a request object
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        Returns a cookie from a request
+        Args:
+            request : request object
+        Return:
+            value of _my_session_id cookie from request object
+        """
+        if request is None:
+            return None
+        session_name = os.getenv('SESSION_NAME')
+        return request.cookies.get(session_name)
